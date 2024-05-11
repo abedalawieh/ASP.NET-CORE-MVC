@@ -1,4 +1,4 @@
-namespace Bulky.Models
+namespace MVCProject.Models
 {
     public class ErrorViewModel
     {
