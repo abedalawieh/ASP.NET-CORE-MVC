@@ -4,8 +4,9 @@ using MVCProject.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace MVCProjectWeb.Controllers
+namespace MVCProject.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,28 +26,29 @@ namespace MVCProjectWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if(obj.Name== obj.DisplayOrder.ToString())
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "Display Order and Name cannot be same");
             }
-            if(ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 _unitOfWork.Category.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Category Created Successfully";
                 return RedirectToAction("Index", "Category");
 
             }
-            return View();  
+            return View();
 
         }
-        public IActionResult Edit(int?id)
+        public IActionResult Edit(int? id)
         {
-            if(id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category categoryFromDb = _unitOfWork.Category.Get(u=>u.Id==id);
-            if(categoryFromDb==null)
+            Category categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+            if (categoryFromDb == null)
             {
                 return NotFound();
             }
@@ -55,7 +57,7 @@ namespace MVCProjectWeb.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            
+
             if (ModelState.IsValid)
             {
                 _unitOfWork.Category.Update(obj);
@@ -81,7 +83,7 @@ namespace MVCProjectWeb.Controllers
             }
             return View(categoryFromDb);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
 
         public IActionResult DeletePOST(int? id)
         {
