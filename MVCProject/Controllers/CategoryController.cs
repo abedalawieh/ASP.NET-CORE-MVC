@@ -8,14 +8,14 @@ namespace MVCProjectWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository categoryRepository;
-        public CategoryController(ICategoryRepository db)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            categoryRepository = db;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> objectCategoryList = categoryRepository.GetAll().ToList();
+            List<Category> objectCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objectCategoryList);
         }
         public IActionResult Create()
@@ -30,8 +30,8 @@ namespace MVCProjectWeb.Controllers
                 ModelState.AddModelError("name", "Display Order and Name cannot be same");
             }
             if(ModelState.IsValid) {
-                categoryRepository.Add(obj);
-                categoryRepository.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category Created Successfully";
                 return RedirectToAction("Index", "Category");
 
@@ -45,7 +45,7 @@ namespace MVCProjectWeb.Controllers
             {
                 return NotFound();
             }
-            Category categoryFromDb = categoryRepository.Get(u=>u.Id==id);
+            Category categoryFromDb = _unitOfWork.Category.Get(u=>u.Id==id);
             if(categoryFromDb==null)
             {
                 return NotFound();
@@ -58,8 +58,8 @@ namespace MVCProjectWeb.Controllers
             
             if (ModelState.IsValid)
             {
-                categoryRepository.Update(obj);
-                categoryRepository.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["update"] = "Category Updated Successfully";
 
                 return RedirectToAction("Index", "Category");
@@ -74,7 +74,7 @@ namespace MVCProjectWeb.Controllers
             {
                 return NotFound();
             }
-            Category categoryFromDb = categoryRepository.Get(u => u.Id == id);
+            Category categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -85,15 +85,15 @@ namespace MVCProjectWeb.Controllers
 
         public IActionResult DeletePOST(int? id)
         {
-            Category categoryFromDb = categoryRepository.Get(u => u.Id == id);
+            Category categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
-            categoryRepository.Delete(categoryFromDb);
+            _unitOfWork.Category.Delete(categoryFromDb);
 
 
-            categoryRepository.Save();
+            _unitOfWork.Save();
             TempData["delete"] = "Category Deleted Successfully";
 
             return RedirectToAction("Index", "Category");
