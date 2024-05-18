@@ -3,6 +3,7 @@ using MVCProject.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCProject.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513195214_createdProductModelAndData")]
+    partial class createdProductModelAndData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,18 +77,11 @@ namespace MVCProject.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -107,8 +103,6 @@ namespace MVCProject.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -116,10 +110,8 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Billy Spark",
-                            CategoryId = 6,
                             Description = "Good Book",
                             ISBN = "SWD99991",
-                            ImageUrl = "",
                             ListPrice = 99,
                             Price = 90,
                             Price100 = 80,
@@ -130,10 +122,8 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Abed Alawieh",
-                            CategoryId = 6,
                             Description = "Good Book",
                             ISBN = "SWD99891",
-                            ImageUrl = "",
                             ListPrice = 95,
                             Price = 89,
                             Price100 = 79,
@@ -144,27 +134,14 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Roman Repelski",
-                            CategoryId = 6,
                             Description = "Bad Book",
                             ISBN = "SWD95991",
-                            ImageUrl = "",
                             ListPrice = 89,
                             Price = 85,
                             Price100 = 75,
                             Price50 = 80,
                             Title = "Game Of Thrones"
                         });
-                });
-
-            modelBuilder.Entity("MVCProject.Models.Product", b =>
-                {
-                    b.HasOne("MVCProject.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,24 +9,17 @@ using System.Threading.Tasks;
 
 namespace MVCProject.DataAccess.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         private readonly ApplicationDbContext _db;
-        public ICategoryRepository Category { get; private set; }
-
-        public IProductRepository Product { get; private set; }
-
-        public UnitOfWork(ApplicationDbContext db) 
+        public ProductRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
-            Category = new CategoryRespository(_db);
-            Product = new ProductRepository(_db);
         }
-
-        public void Save()
+        public void Update(Product product)
         {
-            _db.SaveChanges();
+           _db.Products.Update(product);
         }
+        
     }
 }
-

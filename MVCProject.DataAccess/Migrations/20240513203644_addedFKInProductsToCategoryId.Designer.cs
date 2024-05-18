@@ -3,6 +3,7 @@ using MVCProject.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCProject.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513203644_addedFKInProductsToCategoryId")]
+    partial class addedFKInProductsToCategoryId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace MVCProject.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ListPrice")
                         .HasColumnType("int");
 
@@ -119,7 +118,6 @@ namespace MVCProject.DataAccess.Migrations
                             CategoryId = 6,
                             Description = "Good Book",
                             ISBN = "SWD99991",
-                            ImageUrl = "",
                             ListPrice = 99,
                             Price = 90,
                             Price100 = 80,
@@ -133,7 +131,6 @@ namespace MVCProject.DataAccess.Migrations
                             CategoryId = 6,
                             Description = "Good Book",
                             ISBN = "SWD99891",
-                            ImageUrl = "",
                             ListPrice = 95,
                             Price = 89,
                             Price100 = 79,
@@ -147,7 +144,6 @@ namespace MVCProject.DataAccess.Migrations
                             CategoryId = 6,
                             Description = "Bad Book",
                             ISBN = "SWD95991",
-                            ImageUrl = "",
                             ListPrice = 89,
                             Price = 85,
                             Price100 = 75,
