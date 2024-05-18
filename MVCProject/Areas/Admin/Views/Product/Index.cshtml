@@ -14,7 +14,7 @@
             </a>
         </div>
     </div>
-<table class="table table-bordered table-striped">
+<table id="tblData" class="table table-bordered table-striped" style="width:80%">
 
     <thead>
     <tr>
@@ -23,44 +23,25 @@
                 <th>ISBN</th>
                 <th>Author</th>
                 <th>ListPrice</th>
-                <th>Price for 1-50</th>
+              @*   <th>Price for 1-50</th>
                 <th>Price for 50+</th>
-                <th>Price for 100+</th>
+                <th>Price for 100+</th> *@
 
                 <th>Category</th>
 
+
         </tr>
     </thead>
-    <tbody>
-            @foreach (Product obj in Model)
-        {
-        <tr>
-            <td>@obj.Title</td>
-                    <td>@obj.ISBN</td>
-                    <td>@obj.Author</td>
-                    <td>@obj.ListPrice</td>
-                    <td>@obj.Price</td>
-
-                    <td>@obj.Price50</td>
-                    <td>@obj.Price100</td>
-
-                    <td>@obj.Category.Name</td>
-
-
-                    <td class="d-flex justify-content-end">
-
-                        <div class="btn-group " role="group">
-                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn text-bg-info ">
-                                <i class="bi bi-pencil-square"></i>Edit
-</a>
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn text-bg-danger ">
-                                <i class="bi bi-trash3-fill"></i>Delete
-                            </a>
-                        </div>
-                    </td>
-
-            </tr>
-        }
-    </tbody>
+    
     </table>
+
 </div>
+@section Scripts{
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css" />
+
+    <script src="~/js/product.js" >
+  
+           
+    </script>
+   
+} 
