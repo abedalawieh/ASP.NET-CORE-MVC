@@ -12,21 +12,23 @@ namespace MVCProject.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webEnvironment;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webEnvironment = webEnvironment;
         }
         public IActionResult Index()
         {
-            List<Product> objectProductList = _unitOfWork.Product.GetAll().ToList();
+            List<Product> objectProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
          
 
             return View(objectProductList);
         }
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
 
-         
+
             ProductVM productVM = new()
             {
                 CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
@@ -35,16 +37,60 @@ namespace MVCProject.Areas.Admin.Controllers
                     Text = u.Name,
                     Value = u.Id.ToString()
                 }),
+                Product = new Product()
             };
-            return View(productVM);
+            if (id == null || id == 0)
+            {
+                //create
+                return View(productVM);
+
+            }
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                return View(productVM);
+            }
         }
         [HttpPost]
-        public IActionResult Create(ProductVM obj)
+        public IActionResult Upsert(ProductVM obj,IFormFile?file)
         {
-           
+            if (obj == null)
+            {
+                return BadRequest("Invalid data submitted.");
+            }
             if (ModelState.IsValid)
             {
+                string wwwwRootPath = _webEnvironment.WebRootPath;
+                if(file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwwRootPath, @"images\product");
+                    if(!string.IsNullOrEmpty(obj.Product.ImageUrl)) {
+                        //delete the old image
+                        var oldImagePath = Path.Combine(wwwwRootPath,obj.Product.ImageUrl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    };  
+                    obj.Product.ImageUrl = @"\images\product\" + fileName; 
+
+                }
+                if (obj.Product.Id == 0)
+                {
                 _unitOfWork.Product.Add(obj.Product);
+
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(obj.Product);
+
+                }
                 _unitOfWork.Save();
                 TempData["success"] = "Product Created Successfully";
                 return RedirectToAction("Index", "Product");
@@ -53,35 +99,7 @@ namespace MVCProject.Areas.Admin.Controllers
             return View();
 
         }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(productFromDb);
-        }
         [HttpPost]
-        public IActionResult Edit(Product obj)
-        {
-
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
-                TempData["update"] = "Product Updated Successfully";
-
-                return RedirectToAction("Index", "Product");
-
-            }
-            return View();
-
-        }
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
