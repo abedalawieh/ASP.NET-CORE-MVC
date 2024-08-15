@@ -116,7 +116,7 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Billy Spark",
-                            CategoryId = 6,
+                            CategoryId = 1,
                             Description = "Good Book",
                             ISBN = "SWD99991",
                             ImageUrl = "",
@@ -130,7 +130,7 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Abed Alawieh",
-                            CategoryId = 6,
+                            CategoryId = 2,
                             Description = "Good Book",
                             ISBN = "SWD99891",
                             ImageUrl = "",
@@ -144,7 +144,7 @@ namespace MVCProject.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Roman Repelski",
-                            CategoryId = 6,
+                            CategoryId = 3,
                             Description = "Bad Book",
                             ISBN = "SWD95991",
                             ImageUrl = "",

@@ -22,21 +22,21 @@ namespace MVCProject.DataAccess.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CategoryId",
-                value: 6);
+                value: 1);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CategoryId",
-                value: 6);
+                value: 2);
 
             migrationBuilder.UpdateData(
                 table: "Products",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CategoryId",
-                value: 6);
+                value: 3);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
