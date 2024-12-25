@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ProductVM>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row pb-3"> 
+    
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-4 shadow border-top border-5 rounded">
+                        @if (product.Images.Any())
+                        {
+                            <img src="@product.Images.First().ImageUrl" class="card-img-top rounded p-lg-4 p-sm-1" style="height: 300px" />
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded p-lg-4 p-sm-1" />
+                        }
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-primary bg-opacity-75 text-center">
+                                    @product.Title
+                                </p>
+                                <p class="card-title text-warning text-center">
+                                    by @product.Author<b></b>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center m-0">
+                                    <span class="text-decoration-line-through">@product.PriceList.ToString("c")</span>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text- text-center m-0">
+                                    As low as: <span>@product.Price100More.ToString("c")</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a class="btn btn-outline-primary bg-gradient form-control mt-2"
+                               asp-action="Details" asp-route-productId="@product.Id">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

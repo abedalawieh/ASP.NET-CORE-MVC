@@ -1,0 +1,59 @@
+﻿@model Company
+
+<div class="card shadow mt-4 rounded-2">
+    <div class="card-header bg-primary text-light py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>
+                    Delete Company
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body px-4">
+        <form method="post">
+            <input asp-for="Id" hidden />
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-6">
+                    <div class="row p-1 mt-2">
+                        <label asp-for="Name" class="p-0 fw-bold">Name </label>
+                        <input asp-for="Name" class="form-control shadow" type="text" placeholder="" disabled />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="row p-1 mt-2">
+                        <label asp-for="Address.StreetAddress" class="p-0 fw-bold">Street Address</label>
+                        <input asp-for="Address.StreetAddress" class="form-control shadow" type="text" disabled />
+                        <span asp-validation-for="Address.StreetAddress" class="text-danger"></span>
+                    </div>
+                    <div class="row p-1 mt-2">
+                        <label asp-for="Address.City" class="p-0 fw-bold">City</label>
+                        <input asp-for="Address.City" class="form-control shadow" type="text" disabled />
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
+                    </div>
+                    <div class="row p-1 mt-2">
+                        <label asp-for="Address.State" class="p-0 fw-bold">State</label>
+                        <input asp-for="Address.State" class="form-control shadow" type="text" disabled />
+                        <span asp-validation-for="Address.State" class="text-danger"></span>
+                    </div>
+                    <div class="row p-1 mt-2">
+                        <label asp-for="Address.PostalCode" class="p-0 fw-bold">Postal Code</label>
+                        <input asp-for="Address.PostalCode" class="form-control shadow" type="text" disabled />
+                        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 d-flex justify-content-center">
+                <div class="col-6 col-md-3 p-1">
+                    <button type="submit" class="btn btn-outline-warning form-control">Delete</button>
+                </div>
+                <div class="col-6 col-md-3  p-1">
+                    <a asp-controller="Company" asp-action="Index" class="btn btn-outline-info form-control">Back to list</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,28 @@
+﻿@model int
+
+<div class="container row pt-4">
+    <div class="col-12 text-center">
+        <h1 class="text-primary text-center">Order Placed Successfuly!</h1>
+        <span>
+            Your Order Number is : @Model
+        </span>
+    </div>
+    <div class="col-12 text-center">
+        <img src="~/images/book.png" width="65%" />
+    </div>
+    <div class="col-12 text-center" style="color: tomato">
+        <br />
+        <span>Your Order has been placed successfully! </span>
+        <br />
+    </div>
+    <div class="row text-center d-flex justify-content-center p-2">
+        <div class="col-6 col-md-3">
+            <a asp-area="Admin" asp-controller="Order" asp-action="Index"
+               class="btn btn-outline-success form-control">Your Orders</a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a asp-controller="Home" asp-action="Index"
+               class="btn btn-outline-info form-control">Back to Home</a>
+        </div>
+    </div>
+</div>

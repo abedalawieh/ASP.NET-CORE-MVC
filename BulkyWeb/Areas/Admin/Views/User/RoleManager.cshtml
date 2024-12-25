@@ -1,0 +1,71 @@
+﻿@model UserRoleVM
+
+<div class="card shadow rounded mt-4">
+    <div class="card-header bg-primary bg-gradient">
+        <div class="row">
+            <div class="col-12 text-center text-white">
+                <h2>UserRole Manager</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <form method="post">
+                <input asp-for="ApplicationUser.Id" hidden /> 
+                <div class="row">
+                    <div class="col">
+                        <div class="row mb-2">
+                            <label asp-for="ApplicationUser.Name"></label>
+                            <input asp-for="ApplicationUser.Name" class="form-control" readonly />
+                        </div>
+                        <div class="row mb-2">
+                            <label asp-for="ApplicationUser.Role"></label>
+                            <select id="RoleSelect" asp-for="ApplicationUser.Role" asp- asp-items="@Model.RoleListItems" class="form-select shadow-sm">
+                            </select>
+                            <span asp-validation-for="ApplicationUser.Role" class="text-danger"></span>
+                        </div>
+                        <div id="CompanySelectDiv" class="row mb-2">
+                            <label asp-for="ApplicationUser.Company"></label>
+                            <select asp-for="ApplicationUser.CompanyId" asp-items="@Model.CompanyListItems" class="form-select shadow-sm">
+                            </select>
+                            <span asp-validation-for="ApplicationUser.Company" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-3 col-md-3">
+                        <button type="submit" class="btn btn-outline-primary w-100" style="width: 150px">Update</button>
+                    </div>
+                    <div class="col-3 col-md-3">
+                        <a asp-area="Admin" asp-controller="User" asp-action="Index" class="btn btn-outline-info w-100" style="width: 150px">Back to list</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(() => {
+            test();
+            $("#RoleSelect").change(() => test());
+            console.log(1);
+
+            function test() {
+                console.log(2);
+                var selectedRole = $("#RoleSelect Option:Selected").text();
+                console.log(selectedRole);
+                if (selectedRole == "Company") {
+                    console.log(3);
+                    $("#CompanySelectDiv").show();
+                } else {
+                    $("#CompanySelectDiv").hide();
+                }
+            }
+        });
+    </script>
+}

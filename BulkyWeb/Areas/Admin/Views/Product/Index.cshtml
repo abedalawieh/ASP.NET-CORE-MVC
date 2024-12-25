@@ -1,0 +1,37 @@
+﻿<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-primary text-light py-3 rounded-top-2">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>Product List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body px-4 rounded-bottom-2">
+        <div class="container">
+            <div class="row pt-4 pb-3">
+                <div class="col-12 text-end">
+                    <a class="btn btn-outline-success"
+                       asp-area="Admin" asp-controller="Product" asp-action="Upsert">
+                        <i class="bi bi-plus-circle"></i> Create New
+                    </a>
+                </div>
+            </div>
+            <table id="ProductTable" class="table table-borderless table-striped table-light">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Price</th>
+                        <th>ISBN-13</th>
+                        <th>Category</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/productDataTable.js"></script>
+}

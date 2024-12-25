@@ -1,0 +1,31 @@
+﻿@model List<ApplicationUser>
+
+<div class="card shadow border-0 mt-4 rounded-2">
+    <div class="card-header bg-primary bg-gradient text-white">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>Users</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body px-4">
+        <div class="container">
+            <table id="UsersTable" class="table table-borderless table-striped table-light m-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Company</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/userDataTable.js"></script>
+}

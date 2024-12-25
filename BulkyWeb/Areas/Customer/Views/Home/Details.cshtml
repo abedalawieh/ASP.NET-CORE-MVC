@@ -1,0 +1,176 @@
+﻿@model ShopCartItemVM
+
+<form method="post">
+    <input asp-for="Id" hidden />
+    <input asp-for="ProductId" hidden />
+
+    <div class="card shadow border-0 mt-4 mb-4 rou">
+        <div class="card-header bg-primary text-light py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-white">@Model.Product?.Title</h3>
+                    <p class="text-white-50 fw-semibold mb-0">by @Model.Product?.Author</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="py-3">
+                <div class="row mx-4">
+                    <div class="col-12 col-md-2 pb-1 w-100 text-end">
+                        <a class="btn btn-outline-info mb-2 fw-bold btn-sm text-uppercase"
+                           asp-action="Index">
+                            <small>Back to home</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-4 offset-lg-1 mb-3 text-center ">
+                        @if (Model.Product != null && Model.Product.Images.Any())
+                        {
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+
+                                    @foreach (var image in Model.Product.Images
+                                   .Select((image, index) => new { ProductImage = image, Index = index }))
+                                    {
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@image.Index" class=@(image.Index == 0 ? "active" : "") aria-current="true" aria-label="Slide 1"></button>
+                                    }
+                                </div>
+                                <div class="carousel-inner">
+                                    @foreach (var image in Model.Product.Images
+                                   .Select((image, index) => new { ProductImage = image, Index = index }))
+                                    {
+                                        <div class="carousel-item @(image.Index == 0 ? "active" : "")">
+                                            <img src="@image.ProductImage.ImageUrl" class="d-block w-100" alt="..." style="height: 500px;">
+                                        </div>
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/350x500/png" />
+                        }
+                    </div>
+                    <div class="col-12 col-lg-6 mx-4">
+                        <div class="col-12 col-md-6 pb-1">
+                            <span class="badge rounded-pill bg-dark">@Model.Product?.Category?.Name</span>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">ISBN-13 : @Model.Product?.ISBN13</h6>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50  pb-2">
+                                List Price:
+                                <span class="text-decoration-line-through">
+                                    @Model.Product?.PriceList.ToString("c")
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">1-49 units</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">50-99 units</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                <div class="text-dark text-opacity-50 fw-semibold">100+ units</div>
+                            </div>
+                        </div>
+                        <div class="row text-center ps-2">
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>Price</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product?.PriceStandart.ToString("c")</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product?.Price50More.ToString("c")</div>
+                            </div>
+                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                <div>@Model.Product?.Price100More.ToString("c")</div>
+                            </div>
+                        </div>
+                        <div class="row pl-4 my-3">
+                            <div class="product-description">
+                                <span class="text-secondary">Synopsis:</span>
+                                <div class="short-description">
+                                    @Html.Raw(@Model.Product?.Description)
+                                </div>
+                                <div class="full-description" style="display: none;">
+                                    @Html.Raw(Model.Product?.Description)
+                                </div>
+                                <a href="#" class="read-more">Ler mais</a>
+                            </div>
+                        </div>
+                        <div class="row pl-2 mb-3">
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span id="inputGroup-sizing-default"
+                                          class="input-group-text bg-warning text-white border-0 fw-semibold">
+                                        Count
+                                    </span>
+                                    <input asp-for="Quantity" type="number" value="@Model.Quantity" class="form-control text-end"
+                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 pb-1">
+                                <button type="submit"
+                                        class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function ReadMore() {
+            var $shortDescription = $(".short-description");
+            var $fullDescription = $(".full-description");
+            var $readMore = $(".read-more");
+
+            var charLimit = 800;
+
+            // Verifique se a descrição curta precisa ser truncada
+            var shortDescriptionHtml = $shortDescription.html();
+            if (shortDescriptionHtml.length > charLimit) {
+                var truncatedHtml = shortDescriptionHtml.substring(0, charLimit) + "...";
+                $shortDescription.html(truncatedHtml);
+                $readMore.show();
+            } else {
+                $readMore.hide();
+            }
+
+            // Manipule o clique no link "Ler mais"
+            $readMore.click(function (e) {
+                e.preventDefault();
+                $shortDescription.toggle();
+                $fullDescription.toggle();
+            });
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
